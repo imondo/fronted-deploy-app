@@ -1,0 +1,20 @@
+{
+  "name": "fronted-deploy-app",
+  "version": "1.0.0",
+  "description": "前端发布程序",
+  "scripts": {
+    "dev": "node app.js"
+  },
+  "author": "Mondo",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^7.0.0",
+    "node-ssh": "^11.1.1",
+    "shelljs": "^0.8.4"
+  }
+}

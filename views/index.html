@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <title>fronted-deploy-app</title>
+  <link
+    rel="icon"
+    href="/favicon.ico"
+  >
+  <link
+    rel="stylesheet"
+    href="/index.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+  >
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+
+<body>
+  <header>
+    <img
+      class="logo"
+      src="/logo.png"
+      alt="Mondo News"
+    >
+    <h1> fronted-deploy-app </h1>
+  </header>
+  <section>
+    <div id="app">
+      <el-form
+        :model="ruleForm"
+        status-icon
+        :rules="rules"
+        ref="ruleForm"
+        label-width="120px"
+      >
+        <el-form-item
+          label="部署文件目录"
+          prop="distZipName"
+        >
+          <el-input
+            type="text"
+            placeholder="请输入部署文件根目录"
+            v-model="ruleForm.distZipName"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          label="上传文件"
+        >
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            action="/upload/fronted"
+            :on-preview="onPreview"
+            :on-remove="onRemove"
+            :on-success="onSuccess"
+            :before-upload="beforeAvatarUpload"
+            :file-list="fileList"
+            :auto-upload="false"
+            :data="{distZipName: ruleForm.distZipName}"
+          >
+            <el-button
+              slot="trigger"
+              size="small"
+              type="primary"
+            >选取文件</el-button>
+            <el-button
+              style="margin-left: 10px;"
+              size="small"
+              type="success"
+              @click="submitUpload"
+            >部署到服务器</el-button>
+            <div
+              slot="tip"
+              class="el-upload__tip"
+            >上传打包后的发布文件</div>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+
+    </div>
+  </section>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          ruleForm: {
+            distZipName: ''
+          },
+          fileList: [],
+          rules: {
+            distZipName: [
+              { required: true, message: '请输入目录名称', trigger: 'blur' },
+              { pattern: /[a-zA-Z]+/, message: '请输入字母名称', trigger: 'blur' },
+            ]
+          }
+        };
+      },
+      methods: {
+        submitUpload() {
+          this.$refs['ruleForm'].validate((valid) => {
+            if (valid) {
+              this.$refs.upload.submit();
+            } else {
+              return false;
+            }
+          });          
+        },
+        onRemove(file, fileList) {
+          console.log(file, fileList);
+        },
+        onSuccess(res) {
+          if (res.code === 200) {
+            this.$message.success(res.msg);
+          }
+        },
+        onPreview(file) {
+          console.log(file)
+        },
+        beforeAvatarUpload(file) {
+          const isZIP = file.type === 'zip';
+
+          if (!isZIP) {
+            this.$message.error('上传文件只能是 zip 格式!');
+          }
+          return isZIP;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
