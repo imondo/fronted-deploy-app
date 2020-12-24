@@ -36,4 +36,5 @@ app.use(router.routes(), router.allowedMethods());
 
 app.listen(config.port, () => {
   console.log('开始监听' + config.port)
+  console.log('请打开' + 'http://localhost:' + config.port)
 });
