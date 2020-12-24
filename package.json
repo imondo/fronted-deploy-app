@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "前端发布程序",
   "scripts": {
-    "dev": "node app.js"
+    "dev": "node app.js dev",
+    "build": "node app.js pord"
   },
   "author": "Mondo",
   "license": "ISC",
